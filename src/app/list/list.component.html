@@ -1,0 +1,45 @@
+<!-- <p>
+  list works!
+</p> -->
+<!-- <script src="/home/hewen/git/project/OverPrint/node_modules/print-js/dist/print.js"></script> -->
+
+<!-- <button type="button" onclick="printJS({printable:'http://localhost:8080/admins/download-distribution-list/1766', type:'pdf', showModal:true})">
+  Print PDF with Message
+</button> -->
+
+<!-- <ul>
+  <li *ngFor="let student of studentList; let recordIndex = index;">
+    {{recordIndex +1 }} / {{student.id}} / {{student.name}} / {{student.student_personal_data.gender}} /
+    {{student.student_personal_data.resident_id}} / {{student.student_misc_data.overseas_student_id}} /
+    {{student.student_misc_data.department_data.school.title}} / {{student.student_misc_data.department_data.title}}
+    <button type="button" (click)="print(student.id)">列印r</button>
+  </li>
+</ul> -->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">報名序號</th>
+      <th scope="col">姓名</th>
+      <th scope="col">性別</th>
+      <th scope="col">ID</th>
+      <th scope="col">僑編</th>
+      <th scope="col">錄取科系</th>
+      <th scope="col">列印</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of studentList; let recordIndex = index;">
+      <th scope="row">{{recordIndex +1 }}</th>
+      <td>{{student.id}}</td>
+      <td>{{student.name}}</td>
+      <td>{{student.student_personal_data.gender}}</td>
+      <td>{{student.student_personal_data.resident_id}}</td>
+      <td>{{student.student_misc_data.overseas_student_id}}</td>
+      <td>{{student.student_misc_data.department_data.school.title}} - {{student.student_misc_data.department_data.title}}</td>
+      <td *ngIf="student.student_misc_data.distribution_print_at == null"> <button type="button" class="btn btn-success" (click)="print(student.id)">列印</button> </td>
+      <td *ngIf="student.student_misc_data.distribution_print_at != null"> 已於 {{student.student_misc_data.distribution_print_at | date: 'yyyy-MM-dd HH:mm  '}} 列印 </td>
+    </tr>
+  </tbody>
+</table>
