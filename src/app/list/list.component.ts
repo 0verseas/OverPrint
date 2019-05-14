@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { StudentList } from './StudentList';
 import { environment } from 'src/environments/environment.prod';
+import printJS from '../../../node_modules/print-js/dist/print.js';
 
 
 @Component({
