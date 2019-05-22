@@ -2,6 +2,23 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
+## install the Angular CLI
+```
+sudo npm install -g @angular/cli
+cd OverPrint
+npm install
+```
+
+## Required
+node v8.9 or higher
+
+## Install bootstrap
+[see more](https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/)
+```
+npm install bootstrap
+npm install ngx-bootstrap --save
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -26,17 +43,15 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-
-## https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/
-`npm install bootstrap`
-`npm install ngx-bootstrap --save`
-
-## https://oomusou.io/angular/api/
+## json-server (暫時沒用到)
+[link text](https://oomusou.io/angular/api/)
 `npm install -g json-server`
+
 ## gs
 `apt-get install ghostscript`
 
 ## printJS
-## https://printjs.crabbly.com/
-## printJS Manual
-## https://github.com/crabbly/Print.js
+[Install](https://printjs.crabbly.com/)
+[Manual](https://github.com/crabbly/Print.js)
+ 
+
