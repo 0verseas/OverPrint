@@ -9,6 +9,12 @@ cd OverPrint
 npm install
 ```
 
+### Environment settings
+Copy example environment settings and edit them with text editor:
+1. ```cp src/environments/environment.prod.ts.example src/environments/environment.prod.ts```  
+2. ```cp src/environments/environment.ts.example src/environments/environment.ts```
+
+
 ## Required
 node v8.9 or higher
 
