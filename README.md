@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## install the Angular CLI
 ```
-sudo npm install -g @angular/cli
+sudo npm install -g @angular/cli@7.3.9
 cd OverPrint
 npm install
 ```
