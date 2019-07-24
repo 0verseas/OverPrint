@@ -36,7 +36,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  
-In production, if you deploy to non-root path within a domain, you shall edit ``<base href="/">`` tag in ``./dist/index.html``.  For example: https://example.overseas.ncnu.edu.tw/distribution/ , they shall update tag to ``<base href="/distribution/">``.
+In production, if you deploy to non-root path within a domain, you shall edit ``<base href="/">`` tag in ``./dist/index.html``. See more [here](https://github.com/angular/angular-cli/issues/1080).
 
 ## Running unit tests
 
