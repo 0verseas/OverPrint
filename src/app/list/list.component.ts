@@ -15,10 +15,13 @@ export class ListComponent implements OnInit {
 
 
   url: string;
+  public searchString: string;
 
   constructor(private listService: ListService) {
 
   }
+
+
 
   studentList: StudentList[];
 

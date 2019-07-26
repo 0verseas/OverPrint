@@ -16,6 +16,22 @@
   </li>
 </ul> -->
 
+
+<div class="container">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+    </div>
+    <input
+    type="text"
+    class="form-control"
+    name="searchStudent"
+    placeholder="Type to search NAME or ID..."
+    [(ngModel)]="searchkeyword"
+  />
+  </div>
+</div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -30,9 +46,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let student of studentList; let recordIndex = index;">
+    <tr *ngFor="let student of studentList | filter: 'student.student_personal_data.resident_id':searchkeyword ; let recordIndex = index;  ">
       <th scope="row">{{recordIndex +1 }}</th>
-      <td>{{student.id}}</td>
+      <td ng-show="sortType == 'id'">{{student.id}}</td>
       <td>{{student.name}}</td>
       <td>{{student.student_personal_data.gender}}</td>
       <td>{{student.student_personal_data.resident_id}}</td>
