@@ -15,7 +15,8 @@ export class ListComponent implements OnInit {
 
 
   url: string;
-  public searchString: string;
+  searchkeyword: string = '';
+
 
   constructor(private listService: ListService) {
 
