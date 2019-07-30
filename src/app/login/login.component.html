@@ -1,0 +1,34 @@
+
+<div class="container px-5">
+  <form class="mx-auto mt-5" style="max-width: 23rem;" onsubmit="event.preventDefault(); app.login(this.elements.namedItem('username').value, this.elements.namedItem('password').value);">
+    <div class="row">
+      <h4>登入系統</h4>
+      <div class="alert alert-danger show fade col-12" id="login-alert" role="alert" hidden>
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 帳號或密碼錯誤
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" ><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
+        </div>
+        <input type="text" [(ngModel)]="username" #ctrl="ngModel" class="form-control" id="username" name="username" placeholder="帳號" aria-label="帳號" aria-describedby="basic-addon1" autocorrect="off" spellcheck="false" autocapitalize="off" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" ><i class="fa fa-key fa-fw" aria-hidden="true"></i></span>
+        </div>
+        <input type="password" [(ngModel)]="password" #ctrl="ngModel" class="form-control" id="password" name="password" placeholder="密碼" aria-label="密碼" aria-describedby="basic-addon1" autocorrect="off" spellcheck="false" autocapitalize="off" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <button type="button" class="btn btn-success form-control"  onmousedown="event.preventDefault()" (click)="btn_login()" >登入</button>
+    </div>
+  </form>
+</div>
+
