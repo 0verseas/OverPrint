@@ -3,6 +3,9 @@ import { ListService } from '../list.service';
 import { StudentList } from './StudentList';
 import { environment } from 'src/environments/environment.prod';
 import printJS from '../../../node_modules/print-js/dist/print.js';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import {HttpClient} from "@angular/common/http";
 
 
 @Component({
@@ -17,9 +20,12 @@ export class ListComponent implements OnInit {
   url: string;
   searchkeyword: string = '';
 
-
-  constructor(private listService: ListService) {
-
+  Name = '';
+  constructor(private listService: ListService, private route: ActivatedRoute, private router: Router) {
+    this.route.params.subscribe(res => {
+      this.Name = res.name;
+      console.log(res.name);
+    });
   }
 
 
@@ -53,7 +59,9 @@ export class ListComponent implements OnInit {
   }
 
   reload(): void {
-    location.reload();
+    //location.reload(); // 不知為何會被導到login頁面
+    window.location.reload(); // 不知為何會被導到login頁面
+    //this.router.navigate(['list']);
   }
 
 }
