@@ -60,8 +60,9 @@ export class ListComponent implements OnInit {
 
   reload(): void {
     //location.reload(); // 不知為何會被導到login頁面
-    window.location.reload(); // 不知為何會被導到login頁面
+    //window.location.reload(); // 不知為何會被導到login頁面
     //this.router.navigate(['list']);
+    this.ngOnInit();
   }
 
 }
