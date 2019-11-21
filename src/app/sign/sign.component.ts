@@ -99,5 +99,16 @@ export class SignComponent implements AfterViewInit {
     this.ctx = canvasElement.getContext("2d");
     this.ctx.clearRect(0,0,canvasElement.width, canvasElement.height);    
   }
+  downloadCanvas(): void{
+    const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
+    this.ctx = canvasElement.getContext("2d");
+    const Image = canvasElement.toDataURL("image/png");
+    let id = '1111';
+    console.log(Image);
+    const link = document.getElementById("link");
+    link.setAttribute('download',id+'.png');
+    link.setAttribute('href', Image.replace("image/png", "image/octet-stream"));
+    link.click();
+  }
 
 }
