@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
+import { SignComponent } from '../sign/sign.component';
 import { StudentList } from './StudentList';
 import { environment } from 'src/environments/environment.prod';
 import printJS from '../../../node_modules/print-js/dist/print.js';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
+import { MatDialog, MatDialogConfig } from "@angular/material";
 
 
 @Component({
@@ -21,7 +23,7 @@ export class ListComponent implements OnInit {
   searchkeyword: string = '';
 
   Name = '';
-  constructor(private listService: ListService, private route: ActivatedRoute, private router: Router) {
+  constructor(private listService: ListService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) {
     this.route.params.subscribe(res => {
       this.Name = res.name;
       console.log(res.name);
@@ -48,7 +50,6 @@ export class ListComponent implements OnInit {
   print(id: string): void {
 
     this.url = environment.baseUrl + '/admins/download-distribution-list/' + id;
-    console.log(this.url);
 
     printJS({
       printable: this.url,
@@ -63,6 +64,17 @@ export class ListComponent implements OnInit {
     //window.location.reload(); // 不知為何會被導到login頁面
     //this.router.navigate(['list']);
     this.ngOnInit();
+    }
+  //打開簽名視窗
+
+  Open(): void {
+    const dialogConfig = new MatDialogConfig();
+    //dialogConfig.disableClose = true; //不能無視
+    dialogConfig.autoFocus = true; //主頁面凍結
+    dialogConfig.width = (window.innerWidth*0.8).toString()+'px';
+    dialogConfig.height = (window.innerHeight*0.8).toString()+'px';
+    this.dialog.open(SignComponent, dialogConfig);
   }
+  
 
 }
