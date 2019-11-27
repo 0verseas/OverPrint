@@ -71,13 +71,11 @@ export class ListComponent implements OnInit {
     let ref =this.dialog.open(SignComponent, dialogConfig); // ref參數會取得Boolean回傳值  確認簽名檔案儲存是否成功
     ref.componentInstance.params = {
       title:'DataURL',
-      testFunction:(fromDialog)=>{
+      afterSign:(fromDialog)=>{
         /* 簽名檔成功儲存就列印 失敗就跳alert */
         if(fromDialog){
           this.print(id);
-        } else {
-          alert("簽收失敗請重來一次！");
-        }
+        } 
         return fromDialog;
       }
     }

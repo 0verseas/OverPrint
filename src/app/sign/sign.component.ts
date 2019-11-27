@@ -149,7 +149,7 @@ export class SignComponent implements AfterViewInit {
   
 		  // 沒錯就跳過
 		  if (res.ok) {
-			this.params.testFunction(res.ok);
+			this.params.afterSign(res.ok);
 			this.dialogRef.close();
 			return res;
 		  }
@@ -159,7 +159,6 @@ export class SignComponent implements AfterViewInit {
 	  })
 	.catch((err) => {
 		alert(err.data.messages); //messages是後端設定的參數
-		this.params.testFunction(err.ok);
 		this.dialogRef.close();
 	});
   }
