@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
+import { fromEvent, merge } from 'rxjs';
+import { switchMap, takeUntil, pairwise, tap, map, concatMap } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import { environment } from 'src/environments/environment.prod';
 import { ListComponent } from '../list/list.component';
@@ -20,112 +20,114 @@ export class SignComponent implements AfterViewInit {
   constructor(  private dialogRef: MatDialogRef<SignComponent>, @Inject(MAT_DIALOG_DATA) data  ) { 
     this.id =data.id;//取得ParentComponent傳遞的參數
   }
-
-  private ctx: CanvasRenderingContext2D;
-
+  
   ngAfterViewInit() {
     
-	const canvasElement: HTMLCanvasElement = this.canvas.nativeElement; // 先取得html中的畫布
+	  const canvasElement: HTMLCanvasElement = this.canvas.nativeElement; // 先取得html中的畫布
 	
-	/* 進行畫布參數設定 */
-    this.ctx = canvasElement.getContext("2d");  
+	  /* 進行畫布參數設定 */
+    let ctx = canvasElement.getContext("2d");  
     canvasElement.width = innerWidth * 0.72;
-	canvasElement.height = innerHeight * 0.72;
+	  canvasElement.height = innerHeight * 0.72;
 	
-	/* 進行繪畫格式設定 */
-    this.ctx.lineWidth = 3;
-    this.ctx.lineCap = 'round';
-    this.ctx.strokeStyle = '#000';
+	  /* 進行繪畫格式設定 */
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
 
-	/* 進行事件設定 */
+	  /* 進行事件設定 */
     this.captureEvents(canvasElement);
   }
 
   private captureEvents(canvasEl: HTMLCanvasElement) {
-	/* 滑鼠事件設定 */
-    fromEvent(canvasEl, 'mousedown') //滑鼠點擊
-      .pipe(
-        switchMap((e) => {
-          return fromEvent(canvasEl, 'mousemove')//游標移動
-            .pipe(
-              takeUntil(fromEvent(canvasEl, 'mouseup')),//滑鼠回彈（點擊結束）
-              //takeUntil(fromEvent(canvasEl, 'mouseleave')),//游標超出範圍到底要不要停止呢
-              pairwise()
-            )
-        })
-      ).subscribe((res: [MouseEvent, MouseEvent]) => {
-		/* 取得畫布左上角座標後 運算先前座標比對當前座標進行繪圖 */
-        const rect = canvasEl.getBoundingClientRect();
-        const prevPos = {
-          x: res[0].clientX - rect.left,
-          y: res[0].clientY - rect.top
-        };
-  
-        const currentPos = {
-          x: res[1].clientX - rect.left,
-          y: res[1].clientY - rect.top
-        };
-  
-        this.drawOnCanvas(prevPos, currentPos);
-	  });
+    /* 取得畫布資訊 */
+    let rect = canvasEl.getBoundingClientRect();
+    let ctx = canvasEl.getContext('2d');
 
-	  /* 觸碰事件設定 */
-      fromEvent(canvasEl, 'touchstart')//開始觸碰
-      .pipe(
-        switchMap((e) => {
-          return fromEvent(canvasEl, 'touchmove')//正在滑動
-            .pipe(
-              takeUntil(fromEvent(canvasEl, 'touchend')),//結束觸碰
-              //takeUntil(fromEvent(canvasEl, 'touchcancel')),//滑動時超出範圍到底要不要停止呢
-              pairwise()
-            )
-        })
-      ).subscribe((res: [MouseEvent, MouseEvent]) => {
-		/* 取得畫布左上角座標後 運算先前座標比對當前座標進行繪圖 */
-        const rect = canvasEl.getBoundingClientRect();  
-        const prevPos = {
-          x: res[0].clientX - rect.left,
-          y: res[0].clientY - rect.top
-        };
-  
-        const currentPos = {
-          x: res[1].clientX - rect.left,
-          y: res[1].clientY - rect.top
-        };
-  
-        this.drawOnCanvas(prevPos, currentPos);
-      });
+    ctx.beginPath(); //開始繪畫
+    var draw = function(to: any) {
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+    };
+
+    /* 滑鼠事件發生時判斷位置 */
+    const mouseEventToCoordinate = (mouseEvent: any) => {
+      mouseEvent.preventDefault();
+      return {
+        x: mouseEvent.clientX - rect.left,
+        y: mouseEvent.clientY - rect.top
+      };
+    };
+    
+    /* 滑鼠事件 點擊  移動  放開 */
+    const mouseDowns = fromEvent(canvasEl, 'mousedown').pipe(
+      map(mouseEventToCoordinate)
+    );
+    const mouseMoves = fromEvent(canvasEl, 'mousemove').pipe(
+      map(mouseEventToCoordinate)
+    );
+    const mouseUps = fromEvent(window, 'mouseup').pipe(
+      map(e => {
+        return mouseEventToCoordinate(e);
+      })
+    );
+
+    /* 觸碰事件發生時判斷位置 */
+    const touchEventToCoordinate = (touchEvent: any) => {
+      touchEvent.preventDefault();
+      return {
+        x: touchEvent.changedTouches[0].clientX - rect.left,
+        y: touchEvent.changedTouches[0].clientY - rect.top
+      };
+    };
+
+    /* 觸碰事件 點擊  移動  放開 */
+    const touchStarts = fromEvent(canvasEl, 'touchstart').pipe(
+      map(touchEventToCoordinate)
+    );
+    const touchMoves = fromEvent(canvasEl, 'touchmove').pipe(
+      map(touchEventToCoordinate)
+    );
+    
+    const touchEnds = fromEvent(canvasEl, 'touchend').pipe(
+      map(e => {
+        return touchEventToCoordinate(e);
+      })
+    );
+
+    /* 合併mouse & touch function*/
+    const starts = merge(mouseDowns, touchStarts);
+    const moves = merge(mouseMoves, touchMoves);
+    const ends = merge(mouseUps, touchEnds);
+
+    /* 繪畫線段處理 */
+    const draws = starts.pipe(
+      tap(p => {
+        ctx.moveTo(p.x, p.y);
+      }),
+      concatMap(p => moves.pipe(takeUntil(ends)))
+    );
+
+    draws.subscribe(p => {
+      draw(p);
+    });
   }
-  private drawOnCanvas(  prevPos: { x: number, y: number },    currentPos: { x: number, y: number } ) {
-	/* 從先前座標 畫一條線到 當前座標 */
-    if (!this.ctx) { return; }
-  
-    this.ctx.beginPath();
-  
-    if (prevPos) {
-      this.ctx.moveTo(prevPos.x, prevPos.y); 
-  
-      this.ctx.lineTo(currentPos.x, currentPos.y);
-  
-      this.ctx.stroke();
-    }
-  }
-  
+
   /*清除 Canvas */
   clearCanvas():void {
     const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
-    this.ctx = canvasElement.getContext("2d");
-    this.ctx.clearRect(0,0,canvasElement.width, canvasElement.height);    
+    let ctx = canvasElement.getContext("2d");
+    ctx.clearRect(0,0,canvasElement.width, canvasElement.height);
+    ctx.beginPath(); //開始繪畫
   }
 
   /* 傳送DataURL到後端儲存 */
   saveCanvas(): void{
-	/* 取得畫布的DataURL */
+  	/* 取得畫布的DataURL */
     const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
-    this.ctx = canvasElement.getContext("2d");
     const Image = canvasElement.toDataURL("image/png");
 
-	/* 將DataURL傳送到後端  */
+	  /* 將DataURL傳送到後端  */
     let url = environment.baseUrl + '/admins/save-signature/' + this.id;//後端連結網址
     fetch(url, {
       headers: {
