@@ -16,6 +16,7 @@ export class SignComponent implements AfterViewInit {
   
   id:string;
   params: any;
+  isSign:boolean = false;
 
   constructor(  private dialogRef: MatDialogRef<SignComponent>, @Inject(MAT_DIALOG_DATA) data  ) { 
     this.id =data.id;//取得ParentComponent傳遞的參數
@@ -39,7 +40,7 @@ export class SignComponent implements AfterViewInit {
     this.captureEvents(canvasElement);
   }
 
-  private captureEvents(canvasEl: HTMLCanvasElement) {
+  captureEvents(canvasEl: HTMLCanvasElement) {
     /* 取得畫布資訊 */
     let rect = canvasEl.getBoundingClientRect();
     let ctx = canvasEl.getContext('2d');
@@ -110,6 +111,7 @@ export class SignComponent implements AfterViewInit {
 
     draws.subscribe(p => {
       draw(p);
+      this.isSign = true;
     });
   }
 
@@ -119,49 +121,55 @@ export class SignComponent implements AfterViewInit {
     let ctx = canvasElement.getContext("2d");
     ctx.clearRect(0,0,canvasElement.width, canvasElement.height);
     ctx.beginPath(); //開始繪畫
+    this.isSign = false ;
   }
 
   /* 傳送DataURL到後端儲存 */
   saveCanvas(): void{
-  	/* 取得畫布的DataURL */
-    const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
-    const Image = canvasElement.toDataURL("image/png");
+    if(this.isSign){
+      /* 取得畫布的DataURL */
+      const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
+      const Image = canvasElement.toDataURL("image/png");
 
-	  /* 將DataURL傳送到後端  */
-    let url = environment.baseUrl + '/admins/save-signature/' + this.id;//後端連結網址
-    fetch(url, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify({
-        DataURL:Image 
+      /* 將DataURL傳送到後端  */
+      let url = environment.baseUrl + '/admins/save-signature/' + this.id;//後端連結網址
+      fetch(url, {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+          DataURL:Image 
+        })
       })
-	})
-	.then((fetchResponse)=>{
-		/* 將Response用json()轉化後取需要的值 */
-		return fetchResponse.json().then(data => {
-		  return {
-			ok: fetchResponse.ok,
-			data,
-		  };
-		}).then(res => {
-		  // 錯誤時的處理
-  
-		  // 沒錯就跳過
-		  if (res.ok) {
-			this.params.afterSign(res.ok);
-			this.dialogRef.close();
-			return res;
-		  }
-		  // 有錯就傳遞訊息
-		  throw  res;
-		});
-	  })
-	.catch((err) => {
-		alert(err.data.messages); //messages是後端設定的參數
-		this.dialogRef.close();
-	});
+      .then((fetchResponse)=>{
+        /* 將Response用json()轉化後取需要的值 */
+        return fetchResponse.json().then(data => {
+          return {
+            ok: fetchResponse.ok,
+            data,
+          };
+        })
+        .then(res => {
+            // 錯誤時的處理
+
+            // 沒錯就跳過
+            if (res.ok) {
+              this.params.afterSign(res.ok);
+              this.dialogRef.close();
+              return res;
+            }
+            // 有錯就傳遞訊息
+            throw  res;
+        });
+      })
+      .catch((err) => {
+        alert(err.data.messages); //messages是後端設定的參數
+        this.dialogRef.close();
+      });
+    } else {
+      alert('請確實簽名！');
+    }
   }
 }
