@@ -14,12 +14,14 @@ export class SignComponent implements AfterViewInit {
 
   @ViewChild('canvas') public canvas : ElementRef;
   
+  data:object;
   id:string;
   params: any;
   isSign:boolean = false;
 
   constructor(  private dialogRef: MatDialogRef<SignComponent>, @Inject(MAT_DIALOG_DATA) data  ) { 
-    this.id =data.id;//取得ParentComponent傳遞的參數
+    this.data =data.data;//取得ParentComponent傳遞的參數
+    this.id = this.data['id'];
   }
   
   ngAfterViewInit() {
@@ -29,7 +31,7 @@ export class SignComponent implements AfterViewInit {
 	  /* 進行畫布參數設定 */
     let ctx = canvasElement.getContext("2d");  
     canvasElement.width = innerWidth * 0.72;
-	  canvasElement.height = innerHeight * 0.72;
+	  canvasElement.height = innerHeight * 0.6;
 	
 	  /* 進行繪畫格式設定 */
     ctx.lineWidth = 3;

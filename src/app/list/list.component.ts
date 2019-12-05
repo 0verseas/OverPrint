@@ -61,20 +61,20 @@ export class ListComponent implements OnInit {
     }
   //打開簽名視窗
 
-  Open(id: string): void {
+  Open(data:object): void {
     const dialogConfig = new MatDialogConfig();
     //dialogConfig.disableClose = true; //開啟後不觸發dialog.close不能關閉dialog
     dialogConfig.autoFocus = true; //自動focus在第一個控制項
-    dialogConfig.data = {'id': id}; //傳遞user_id到dialog Component
-    dialogConfig.width = (window.innerWidth*0.8).toString()+'px'; 
-    dialogConfig.height = (window.innerHeight*0.8).toString()+'px';
+    dialogConfig.data = {'data': data}; //傳遞user_id到dialog Component
+    dialogConfig.width = (window.innerWidth).toString()+'px'; 
+    dialogConfig.height = (window.innerHeight*0.77).toString()+'px';
     let ref =this.dialog.open(SignComponent, dialogConfig); // ref參數會取得Boolean回傳值  確認簽名檔案儲存是否成功
     ref.componentInstance.params = {
       title:'DataURL',
       afterSign:(fromDialog)=>{
         /* 簽名檔成功儲存就列印 失敗就跳alert */
         if(fromDialog){
-          this.print(id);
+          this.print(data['overseas_student_id']);
         } 
         return fromDialog;
       }
