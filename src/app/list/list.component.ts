@@ -74,7 +74,7 @@ export class ListComponent implements OnInit {
       afterSign:(fromDialog)=>{
         /* 簽名檔成功儲存就列印 失敗就跳alert */
         if(fromDialog){
-          this.print(data['overseas_student_id']);
+          this.print(data['id']);
         } 
         return fromDialog;
       }
