@@ -19,7 +19,7 @@ export class ListService {
 
   /** GET list from the server */
   public getList(): Observable<StudentList[]> {
-    return this.http.get<StudentList[]>(this.heroesUrl);
+    return this.http.get<StudentList[]>(this.heroesUrl,{withCredentials: true});
   }
 
 

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common'; 
 
 
 @Component({
@@ -33,18 +34,22 @@ export class LoginComponent implements OnInit {
     console.log(data);
 
     const req = this.http.post(environment.baseUrl + '/office/login', {
-      username: this.username,
-      password: sha256(this.password)
-    })
+        username: this.username,
+        password: sha256(this.password)
+      },{
+        withCredentials: true
+      })
       .subscribe(
         res => {
           //console.log(res);
           console.log("登入成功");
           this.router.navigate(['list']);
+          let logoutButton = document.getElementById('log-out');
+          logoutButton.style.display = 'block';
         },
         err => {
           console.log("Error occured");
-          alert("帳號或密碼錯誤")
+          alert("帳號或密碼錯誤");
         }
       );
   }
