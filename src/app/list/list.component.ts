@@ -3,7 +3,7 @@ import { ListService } from '../list.service';
 import { SignComponent } from '../sign/sign.component';
 import { StudentList } from './StudentList';
 import { environment } from 'src/environments/environment.prod';
-import printJS from '../../../node_modules/print-js/dist/print.js';
+import printJS from '../../../node_modules/print-js-0verseas/dist/print.js';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
@@ -82,7 +82,7 @@ export class ListComponent implements OnInit, AfterViewChecked {
     //dialogConfig.disableClose = true; //開啟後不觸發dialog.close不能關閉dialog
     dialogConfig.autoFocus = true; //自動focus在第一個控制項
     dialogConfig.data = {'data': data}; //傳遞user_id到dialog Component
-    dialogConfig.width = (window.innerWidth).toString()+'px'; 
+    dialogConfig.width = (window.innerWidth).toString()+'px';
     dialogConfig.height = (window.innerHeight*0.77).toString()+'px';
     let ref =this.dialog.open(SignComponent, dialogConfig); // ref參數會取得Boolean回傳值  確認簽名檔案儲存是否成功
     ref.componentInstance.params = {
@@ -91,7 +91,7 @@ export class ListComponent implements OnInit, AfterViewChecked {
         /* 簽名檔成功儲存就列印 失敗就跳alert */
         if(fromDialog){
           this.print(data['id']);
-        } 
+        }
         return fromDialog;
       }
     }
