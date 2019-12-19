@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , AfterViewChecked} from '@angular/core';
 import { ListService } from '../list.service';
 import { SignComponent } from '../sign/sign.component';
 import { StudentList } from './StudentList';
@@ -15,7 +15,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, AfterViewChecked {
 
   url: string;
   searchkeyword: string = '';
@@ -33,12 +33,28 @@ export class ListComponent implements OnInit {
     this.getList();
   }
 
+  ngAfterViewChecked(): void {
+    if(this.studentList){
+      this.getTotal();
+    }
+  }
+
   // getList(): void {
   //   this.studentList = this.listService.getList();
   // }
 
   getList(): void {
     this.listService.getList().subscribe(studentList => this.studentList = studentList);
+  }
+  getTotal(): void {
+    let print = 0, i = 0;
+    for(i = 0; i < this.studentList.length;i++){
+      if(this.studentList[i].student_misc_data['distribution_print_at'] != null){
+        print++;
+      }
+    }
+    let printRow = document.getElementById('print-row');
+    printRow.textContent = '列印    ( '+ print + '  /  '+ i + ' )';
   }
 
   print(id: string): void {
