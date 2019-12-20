@@ -17,23 +17,26 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 })
 export class ListComponent implements OnInit, AfterViewChecked {
 
+  //變數宣告區域
   url: string;
   searchkeyword: string = '';
-
+  studentList: StudentList[];
   Name = '';
+
   constructor(private listService: ListService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) {
     this.route.params.subscribe(res => {
       this.Name = res.name;
     });
   }
 
-  studentList: StudentList[];
-
+  //畫面初始化時取得學生清單
   ngOnInit() {
     this.getList();
   }
 
+  //等待畫面初始化完畢後再計算已列印人數
   ngAfterViewChecked(): void {
+    //確認取得學生清單後再計算已列印人數
     if(this.studentList){
       this.getTotal();
     }
@@ -43,30 +46,36 @@ export class ListComponent implements OnInit, AfterViewChecked {
   //   this.studentList = this.listService.getList();
   // }
 
+  //取得學生清單
   getList(): void {
     this.listService.getList().subscribe(studentList => this.studentList = studentList);
   }
+
+  //計算列印人數
   getTotal(): void {
     let print = 0, i = 0;
     for(i = 0; i < this.studentList.length;i++){
       if(this.studentList[i].student_misc_data['distribution_print_at'] != null){
-        print++;
+        print++; // 計算列印過的人數
       }
     }
     let printRow = document.getElementById('print-row');
-    printRow.textContent = '列印    ( '+ print + '  /  '+ i + ' )';
+    printRow.textContent = '列印    ( '+ print + '  /  '+ i + ' )';  // 顯示列印人數 : ( 已列印 / 總人數 )
   }
 
+  //列印PDF Function 
   print(id: string): void {
 
     this.url = environment.baseUrl + '/admins/download-distribution-list/' + id;
 
+    /* Print.js 套件參數設定 */
     printJS({
-      printable: this.url,
-      type: 'pdf',
-      showModal: true,
-      modalMessage: 'Generating File...',
-      onPrintDialogClose: () => this.reload() });
+      printable: this.url,  //fetch link
+      type: 'pdf', // file type
+      showModal: true, //顯示Loading畫面
+      modalMessage: 'Generating File...',//Loading畫面字串
+      onPrintDialogClose: () => this.reload()  //列印Dialog關閉後畫面要刷新
+    });
   }
 
   reload(): void {
@@ -74,9 +83,9 @@ export class ListComponent implements OnInit, AfterViewChecked {
     //window.location.reload(); // 不知為何會被導到login頁面
     //this.router.navigate(['list']);
     this.ngOnInit();
-    }
-  //打開簽名視窗
+  }
 
+  //打開簽名視窗
   Open(data:object): void {
     const dialogConfig = new MatDialogConfig();
     //dialogConfig.disableClose = true; //開啟後不觸發dialog.close不能關閉dialog
