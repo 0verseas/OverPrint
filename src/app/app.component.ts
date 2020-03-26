@@ -16,7 +16,6 @@ export class AppComponent {
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe(res => {
       this.Name = res.name;
-      console.log(res.name);
     });
     this.router.navigate(['login']);
   }

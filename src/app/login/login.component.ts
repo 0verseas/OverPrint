@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe(res => {
       this.Name = res.name;
-      console.log(res.name);
     });
   }
 
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
 
   btn_login():void{
     const data = {username: this.username, password: sha256(this.password)};
-    console.log(data);
 
     const req = this.http.post(environment.baseUrl + '/office/login', {
         username: this.username,
