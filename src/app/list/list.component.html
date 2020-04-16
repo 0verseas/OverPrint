@@ -58,7 +58,7 @@
       <td *ngIf="student.student_qualification_verify.system_id >= 3">{{student.student_misc_data.graduate_department_data.school.title}} - {{student.student_misc_data.graduate_department_data.title}}</td>
       <!-- <td *ngIf="student.student_misc_data.distribution_print_at == null"> <button type="button" class="btn btn-success" (click)="print(student.id)">列印</button> </td> -->
       <td *ngIf="student.student_misc_data.distribution_print_at == null"> <button type="button" class="btn btn-success" (click)="Open(student)">列印</button> </td>
-      <td *ngIf="student.student_misc_data.distribution_print_at != null"> 已於 {{student.student_misc_data.distribution_print_at | date: 'yyyy-MM-dd HH:mm  '}} 列印 </td>
+      <td *ngIf="student.student_misc_data.distribution_print_at != null"> <button type="button" class="btn btn-info" (click)="Show(student)" >已於 {{student.student_misc_data.distribution_print_at | date: 'yyyy-MM-dd HH:mm  '}} 列印 </button></td>
     </tr>
   </tbody>
 </table>

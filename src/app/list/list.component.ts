@@ -105,4 +105,10 @@ export class ListComponent implements OnInit, AfterViewChecked {
       }
     }
   }
+
+  //show 簽名檔
+  Show(user){
+    let url = environment.baseUrl + '/admins/show-signature/' + user.id;//後端連結網址
+    window.open(url);
+  }
 }
