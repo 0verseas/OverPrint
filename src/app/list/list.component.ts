@@ -1,6 +1,7 @@
 import { Component, OnInit , AfterViewChecked} from '@angular/core';
 import { ListService } from '../list.service';
 import { SignComponent } from '../sign/sign.component';
+import { ShowComponent } from '../show/show.component';
 import { StudentList } from './StudentList';
 import { environment } from 'src/environments/environment.prod';
 import printJS from '../../../node_modules/print-js-0verseas/dist/print.js';
@@ -109,6 +110,12 @@ export class ListComponent implements OnInit, AfterViewChecked {
   //show 簽名檔
   Show(user){
     let url = environment.baseUrl + '/admins/show-signature/' + user.id;//後端連結網址
-    window.open(url);
+    const dialogConfig = new MatDialogConfig();
+    //dialogConfig.disableClose = true; //開啟後不觸發dialog.close不能關閉dialog
+    dialogConfig.autoFocus = true; //自動focus在第一個控制項
+    dialogConfig.data = {'data': user,'url':url}; //傳遞user_id到dialog Component
+    dialogConfig.width = (window.innerWidth).toString()+'px';
+    dialogConfig.height = (window.innerHeight*0.77).toString()+'px';
+    this.dialog.open(ShowComponent, dialogConfig); // ref參數會取得Boolean回傳值  確認簽名檔案儲存是否成功
   }
 }

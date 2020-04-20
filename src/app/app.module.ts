@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { SignComponent } from './sign/sign.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ShowComponent } from './show/show.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
     SearchStudentPipe,
     LoginComponent,
     SignComponent,
+    ShowComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,6 @@ const appRoutes: Routes = [
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SignComponent],
+  entryComponents: [SignComponent,ShowComponent],
 })
 export class AppModule { }

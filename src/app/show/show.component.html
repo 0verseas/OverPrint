@@ -1,0 +1,29 @@
+<mat-dialog-content>
+  <canvas #canvas  id = "draw" width = "900" height = "500" style="border:2px solid #000000; padding: 0; margin: auto; display: block;"></canvas>
+  <!-- <img src ="" id ="show"></img> -->
+</mat-dialog-content>    
+<mat-dialog-actions >
+  <div class = "container">
+    <div class="row">
+      <div class="col-md-2" style="padding-left: 1%; font-weight: bold;" >
+        <p>報名序號：{{data.id}}</p>
+      </div>
+      <div class="col-md-3" style="padding-left: 1%; font-weight: bold;" >
+        <p>姓名：{{data.name}}</p>
+      </div>
+      <div class="col-md-4" style="padding-left: 1%; font-weight: bold;" >
+        <p>ID：{{data.student_personal_data.resident_id}}</p>
+      </div>
+      <div class="col-md-2" style="padding-left: 1%; font-weight: bold;" >
+          <p>僑生編號：{{data.student_misc_data.overseas_student_id}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10" style="padding-left: 1%; font-weight: bold;" >
+        <p *ngIf="data.student_qualification_verify.system_id == 1">錄取學校科系：{{data.student_misc_data.department_data.school.title}} - {{data.student_misc_data.department_data.title}}</p>    
+        <p *ngIf="data.student_qualification_verify.system_id == 2">錄取學校科系：{{data.student_misc_data.two_year_tech_department_data.school.title}} - {{data.student_misc_data.two_year_tech_department_data.title}}</p>    
+        <p *ngIf="data.student_qualification_verify.system_id >= 3">錄取學校科系：{{data.student_misc_data.graduate_department_data.school.title}} - {{data.student_misc_data.graduate_department_data.title}}</p>    
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>
