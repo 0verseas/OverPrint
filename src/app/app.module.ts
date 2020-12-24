@@ -38,7 +38,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     )
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
