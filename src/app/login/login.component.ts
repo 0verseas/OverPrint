@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
 		}
 
 		//取得畫布物件屬性
-		let canvas = document.getElementById('identifyingCanvas');
+		let canvas = <HTMLCanvasElement> document.getElementById('identifyingCanvas');
 		let width = canvas.width;
 		let height = canvas.height;
 		let context = canvas.getContext('2d');
