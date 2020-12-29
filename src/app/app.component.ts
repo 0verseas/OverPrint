@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'OverPrint';
 
@@ -23,18 +24,40 @@ export class AppComponent {
     });
 
 
-  let loginstatusUrl = environment.baseUrl + '/office/login'; 
-  this.http.get<any>(loginstatusUrl, { withCredentials:true } ).subscribe({
-    next: data => {
-        this.router.navigate(['list']);
-    },
-    error: error => {
-        //this.errorMessage = error.message;
-        //console.error('There was an error!', error);
-        this.router.navigate(['login']);
-    }
-  })
+    let loginstatusUrl = environment.baseUrl + '/office/login';
+    this.http.get<any>(loginstatusUrl, { withCredentials:true } ).subscribe({
+      next: data => {
+          this.router.navigate(['list']);
+      },
+      error: error => {
+          //this.errorMessage = error.message;
+          //console.error('There was an error!', error);
+          this.router.navigate(['login']);
+      }
+    })
 
+  }
+
+  btn_logout():void{
+    let logoutstatusUrl = environment.baseUrl + '/office/logout';
+    const req = this.http.post(logoutstatusUrl,{
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+				'Content-Type': 'application/json'
+			},
+    })
+    .subscribe(
+      res => {
+        console.log(res);
+        alert("logout!!");
+        this.router.navigate(['login']);
+      },
+      err => {
+        alert("Error");
+        this.router.navigate(['login']);
+      }
+    );
   }
 
 

@@ -13,7 +13,7 @@
     <span class="navbar-nav"><%= subline %></span> -->
   </div>
 
-<div style="display: none;" id = "log-out">
+<div  id = "log-out">
   <ul class="nav nav-pills nav-fill mx-auto mx-lg-0 p-3">
     <!-- <% for (item of navs) { %>
       <li class="nav-item">
@@ -23,7 +23,7 @@
       </li>
     <% } %> -->
       <li class="nav-item">
-        <a class="nav-link" onclick="nav.logout();" href="#">
+        <a class="nav-link" onmousedown="event.preventDefault()" (click)="btn_logout()" href="#">
           登出 <span class="sr-only">(current)</span>
         </a>
       </li>
