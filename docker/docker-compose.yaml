@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: OverPrint
+    restart: unless-stopped
+    tty: true
+    environment:
+      - TZ=Asia/Taipei
+    volumes:
+      - ./app/dist/OverPrint/:/usr/share/nginx/html/distribution/
