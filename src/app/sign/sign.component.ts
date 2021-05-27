@@ -12,7 +12,7 @@ import { ListComponent } from '../list/list.component';
 })
 export class SignComponent implements AfterViewInit {
 
-  @ViewChild('canvas') public canvas : ElementRef;
+  @ViewChild('canvas', { static: true }) public canvas : ElementRef;
   
   data:object;
   id:string;

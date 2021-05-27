@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class ShowComponent implements AfterViewInit {
 
-  @ViewChild('canvas') public canvas : ElementRef;
+  @ViewChild('canvas', { static: true }) public canvas : ElementRef;
   
   data:object;
   id:string;
