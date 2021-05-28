@@ -1,10 +1,10 @@
 # OverPrint
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.29.
 
 ## install the Angular CLI
 ```
-sudo npm install -g @angular/cli@7.3.9
+sudo npm install -g @angular/cli@8.3.29
 cd OverPrint
 npm install
 ```
@@ -16,7 +16,7 @@ Copy example environment settings and edit them with text editor:
 
 
 ## Required
-node v8.9 or higher
+node v10.9 or higher
 
 ## Install bootstrap
 [see more](https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/)
